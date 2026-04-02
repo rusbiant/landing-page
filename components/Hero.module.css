@@ -154,3 +154,104 @@
     font-size: 2.5rem;
   }
 }
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 6rem 1.5rem 3rem;
+    min-height: auto;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .description {
+    font-size: 1rem;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ctaGroup {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .primaryCta,
+  .secondaryCta {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Disable 3D transform on mobile to prevent overflow */
+  .visual {
+    perspective: none;
+    padding: 0;
+  }
+
+  .codeWindow {
+    transform: none;
+    border-radius: 0.5rem;
+  }
+
+  .codeWindow:hover {
+    transform: none;
+  }
+
+  .codeContent {
+    font-size: 0.78rem;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    padding: 5rem 1rem 2.5rem;
+  }
+
+  .title {
+    font-size: 1.65rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .ctaGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primaryCta,
+  .secondaryCta {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .codeContent {
+    font-size: 0.72rem;
+    padding: 0.75rem;
+  }
+
+  .windowHeader {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}

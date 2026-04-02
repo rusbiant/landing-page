@@ -1,0 +1,49 @@
+# Block 1: Redirect HTTP -> HTTPS www
+server {
+    listen 80;
+    server_name rusby.my.id www.rusby.my.id;
+
+    return 301 https://www.rusby.my.id$request_uri;
+}
+
+# Block 2: Redirect HTTPS non-www -> HTTPS www
+server {
+    listen 443 ssl;
+    server_name rusby.my.id;
+
+    ssl_certificate /etc/ssl/cloudflare/rusby.my.id.pem;
+    ssl_certificate_key /etc/ssl/cloudflare/rusby.my.id.key;
+
+    return 301 https://www.rusby.my.id$request_uri;
+}
+
+# Block 3: Main server - HTTPS www (landing page)
+server {
+    listen 443 ssl;
+    server_name www.rusby.my.id;
+
+    ssl_certificate /etc/ssl/cloudflare/rusby.my.id.pem;
+    ssl_certificate_key /etc/ssl/cloudflare/rusby.my.id.key;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml text/javascript;
+
+    location / {
+        proxy_pass http://localhost:4500;
+        proxy_http_version 1.1;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
