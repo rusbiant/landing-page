@@ -1,0 +1,36 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main  # ganti jika branch utama kamu berbeda
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies & test
+        run: |
+          npm install
+         # npm test  # hapus baris ini jika belum ada test
+
+      - name: Deploy ke VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /path/to/app  # ganti dengan path project di VPS
+            git pull origin main
+            npm install --production
+            pm2 restart app-name  # ganti dengan nama app PM2 kamu
